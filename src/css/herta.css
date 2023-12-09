@@ -1,5 +1,5 @@
 .Herta {
-    background-image: url('src/assets/sprite2.png');
+    background-image: url($sprite/herta.png);
     width: 300px;
     height: 300px;
     animation: anim 0.6s steps(6) infinite;
