@@ -1,0 +1,29 @@
+@font-face {
+    font-family: Pier Sans;
+    font-display: fallback;
+    font-style: normal;
+    font-weight: 700;
+    src: url(/assets/fonts/PierSans-Bold.otf) format("opentype")
+}
+
+.Container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #232136;
+    background-size: 100%;
+    min-height: 100vh;
+    height: 100%;
+}
+
+.Heading {
+    color: #e0def4;
+    font-size: 3rem;
+}
+
+@media all and (max-width: 768px) {
+    .Heading {
+        font-size: 2rem;
+    }
+}
