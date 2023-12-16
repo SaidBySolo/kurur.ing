@@ -25,48 +25,58 @@ const App = () => {
   const [realWidthHerta, setRealWidthHerta] = useState(widthHerta / 1.5)
   const [realHeightHerta, setRealHeightHerta] = useState(heightHerta / 1.5)
 
-  useEffect(() => {
+  const setHertaSize = () => {
     if (width <= 768) {
-      setRealWidthHerta(widthHerta / 3)
-      setRealHeightHerta(heightHerta / 3)
+      setRealWidthHerta(widthHerta / 2.5)
+      setRealHeightHerta(heightHerta / 2.5)
     } else {
       setRealWidthHerta(widthHerta / 1.5)
       setRealHeightHerta(heightHerta / 1.5)
     }
-  }, [width, height])
+  }
+
+  useEffect(() => {
+    setHertaSize()
+  }, [width])
 
   const [transform, setTransform] = useState({
-    x: Math.random() * (realWidthHerta - width) + height,
-    y: Math.random() * (realHeightHerta - height) + width,
+    x: 0,
+    y: 0,
     xSpeed: 1,
     ySpeed: 1,
   })
 
-  useInterval(
-    () => {
-      setTransform(prevState => {
-        const newX = prevState.x + prevState.xSpeed;
-        const newY = prevState.y + prevState.ySpeed;
-        let newXSpeed = prevState.xSpeed;
-        let newYSpeed = prevState.ySpeed;
+  useInterval(() => {
+    setTransform(prevState => {
+      const { x, y, xSpeed, ySpeed } = prevState;
+      const halfWidth = realWidthHerta / 2;
+      const halfHeight = realHeightHerta / 2;
+      const halfWindowWidth = width / 2;
+      const halfWindowHeight = height / 2;
 
-        if (newX + realWidthHerta / 2 >= width / 2 || newX - realWidthHerta / 2 <= -width / 2) {
-          newXSpeed = -newXSpeed;
-        }
+      let newX = x + xSpeed;
+      let newY = y + ySpeed;
+      let newXSpeed = xSpeed;
+      let newYSpeed = ySpeed;
 
-        if (newY + realHeightHerta / 2 >= height / 2 || newY - realHeightHerta / 2 <= -height / 2) {
-          newYSpeed = -newYSpeed;
-        }
+      if (newX + halfWidth >= halfWindowWidth || newX - halfWidth <= -halfWindowWidth) {
+        newX = newX + halfWidth >= halfWindowWidth ? halfWindowWidth - halfWidth : -halfWindowWidth + halfWidth;
+        newXSpeed = -xSpeed;
+      }
 
-        return {
-          x: newX,
-          y: newY,
-          xSpeed: newXSpeed,
-          ySpeed: newYSpeed
-        };
-      });
-    }, 6
-  )
+      if (newY + halfHeight >= halfWindowHeight || newY - halfHeight <= -halfWindowHeight) {
+        newY = newY + halfHeight >= halfWindowHeight ? halfWindowHeight - halfHeight : -halfWindowHeight + halfHeight;
+        newYSpeed = -ySpeed;
+      }
+
+      return {
+        x: newX,
+        y: newY,
+        xSpeed: newXSpeed,
+        ySpeed: newYSpeed
+      };
+    });
+  }, 6);
   return (
     <div className='Container'>
       <Heading>Kuru Kuru Kururing~</Heading>
